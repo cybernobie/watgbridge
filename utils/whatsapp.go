@@ -12,6 +12,7 @@ import (
 
 	"github.com/lithammer/fuzzysearch/fuzzy"
 	"go.mau.fi/whatsmeow"
+	"go.mau.fi/whatsmeow/proto/waCommon"
 	"go.mau.fi/whatsmeow/proto/waE2E"
 	"go.mau.fi/whatsmeow/types"
 	"google.golang.org/protobuf/proto"
@@ -242,4 +243,25 @@ func WaSendText(chat types.JID, text, stanzaId, participantId string, quotedMsg 
 	}
 
 	return waClient.SendMessage(context.Background(), chat, msgToSend)
+}
+
+func WaEditText(chat types.JID, messageID string, newText string) (whatsmeow.SendResponse, error) {
+	waClient := state.State.WhatsAppClient
+
+	// Create the edit message
+	msg := &waE2E.Message{
+		ProtocolMessage: &waE2E.ProtocolMessage{
+			Key: &waCommon.MessageKey{
+				FromMe:    proto.Bool(true),
+				ID:        proto.String(messageID),
+				RemoteJID: proto.String(chat.String()),
+			},
+			Type: waE2E.ProtocolMessage_MESSAGE_EDIT.Enum(),
+			EditedMessage: &waE2E.Message{
+				Conversation: proto.String(newText),
+			},
+		},
+	}
+
+	return waClient.SendMessage(context.Background(), chat, msg)
 }

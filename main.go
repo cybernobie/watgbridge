@@ -158,6 +158,26 @@ func main() {
 		}
 	}
 
+	if cfg.YtDlpExecutable == "" {
+		ytDlpPath, err := exec.LookPath("yt-dlp")
+		if err == nil {
+			cfg.YtDlpExecutable = ytDlpPath
+			logger.Info("setting path to yt-dlp executable",
+				zap.String("path", ytDlpPath),
+			)
+			_ = logger.Sync()
+
+			if err = cfg.SaveConfig(); err != nil {
+				logger.Fatal("failed to save config file",
+					zap.Error(err),
+				)
+			}
+		} else {
+			logger.Warn("yt-dlp executable not found, ytdlp module might not work")
+			_ = logger.Sync()
+		}
+	}
+
 	// Setup database
 	db, err := database.Connect()
 	if err != nil {

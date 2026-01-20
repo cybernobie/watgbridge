@@ -16,6 +16,7 @@ type Config struct {
 	GitExecutable    string `yaml:"git_executable"`
 	GoExecutable     string `yaml:"go_executable"`
 	FfmpegExecutable string `yaml:"ffmpeg_executable"`
+	YtDlpExecutable  string `yaml:"yt_dlp_executable"`
 	DebugMode        bool   `yaml:"debug_mode"`
 
 	UseGithHubBinaries bool   `yaml:"use_github_binaries"`

@@ -4,6 +4,7 @@ time_format: 02 Jan, 2006 - Mon @ 15:04
 git_executable: /usr/bin/git
 go_executable: /usr/bin/go
 ffmpeg_executable: /usr/bin/ffmpeg
+yt_dlp_executable: /usr/bin/yt-dlp
 debug_mode: false
 
 use_github_binaries: false              # Set to true if you want to use pre-built binaries from GitHub
